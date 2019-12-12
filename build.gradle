@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+    compile group:'org.xerial', name:'sqlite-jdbc', version:'3.8.11.2'
+
+    testCompile 'junit:junit:4.12'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java.srcDirs = ['src\\main\\java']
+    }
+
+    test {
+        java.srcDirs = ['src\\test\\java']
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'okon.Nautilus.NautilusApp'
+    }
+    doFirst {
+        from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<params>
+  <auth_user>
+    <interface_name>iiii</interface_name>
+    <user>aaa</user>
+    <password>bbb</password>
+    <domain></domain>
+  </auth_user>
+    <auth_user>
+    <interface_name>jjjj</interface_name>
+    <user>hhh</user>
+    <password>kkk</password>
+    <domain>ll</domain>
+  </auth_user>
+</params>
