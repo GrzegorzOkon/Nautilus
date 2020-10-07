@@ -1,5 +1,7 @@
 package okon.Nautilus;
 
+import okon.Nautilus.exception.AppException;
+
 import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.SQLException;

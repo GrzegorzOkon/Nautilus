@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <params>
-	<AES-ECS2>
-		<Unix>
+	<AES>
+		<JBossNodes>
 			<server>
 				<srv_alias>aaa</srv_alias>
 				<srv_ip>x.x.x.x</srv_ip>
-				<srv_port>xxxx</srv_port>
+				<srv_port>1234</srv_port>
 				<srv_cmd>...</srv_cmd>
 				<srv_desc>...</srv_desc>
 				<interface_name>iiii</interface_name>
 				<interface_name></interface_name>
 			</server>
+		</JBossNodes>
+		<JBossCluster>
 			<server>
 				<srv_alias>aaa</srv_alias>
 				<srv_ip>x.x.x.x</srv_ip>
-				<srv_port>xxxx</srv_port>
+				<srv_port>2134</srv_port>
 				<srv_cmd>...</srv_cmd>
 				<srv_desc>...</srv_desc>
 				<interface_name>iiii</interface_name>
@@ -23,23 +25,27 @@
 			<server>
 				<srv_alias>aaa</srv_alias>
 				<srv_ip>x.x.x.x</srv_ip>
-				<srv_port>xxxx</srv_port>
+				<srv_port>4231</srv_port>
 				<srv_cmd>...</srv_cmd>
 				<srv_desc>...</srv_desc>
 				<interface_name>jjjj</interface_name>
 				<interface_name></interface_name>
 			</server>
-		</Unix>
-	</AES-ECS2>
-	<AES-BCP>
+		</JBossCluster>
+		<JBossDomainController>
+		</JBossDomainController>
+		<JBossSlaveControllers>
+		</JBossSlaveControllers>
+	</AES>
+	<BCP>
 		<Unix></Unix>
-	</AES-BCP>
+	</BCP>
 	<AIS>
 		<Unix></Unix>	
 	</AIS>
-	<AIS-INTRASTAT>
+	<INTRASTAT>
 		<Unix></Unix>
-	</AIS-INTRASTAT>
+	</INTRASTAT>
 	<REPOSITORY>
 		<Unix></Unix>
 	</REPOSITORY>

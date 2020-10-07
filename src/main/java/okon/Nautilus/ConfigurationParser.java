@@ -3,6 +3,7 @@ package okon.Nautilus;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import okon.Nautilus.exception.AppException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

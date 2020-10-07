@@ -1,4 +1,4 @@
-package okon.Nautilus;
+package okon.Nautilus.exception;
 
 public class AppException extends RuntimeException {
     public AppException(Throwable cause) {
