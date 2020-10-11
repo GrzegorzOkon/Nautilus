@@ -3,31 +3,28 @@
 	<AES>
 		<JBossNodes>
 			<server>
-				<srv_alias>aaa</srv_alias>
-				<srv_ip>x.x.x.x</srv_ip>
-				<srv_port>1234</srv_port>
-				<srv_cmd>...</srv_cmd>
-				<srv_desc>...</srv_desc>
+				<ip>x.x.x.x</ip>
+				<port>1234</port>
+				<command secure = "yes">...</command>
+				<description>...</description>
 				<interface_name>iiii</interface_name>
 				<interface_name></interface_name>
 			</server>
 		</JBossNodes>
 		<JBossCluster>
 			<server>
-				<srv_alias>aaa</srv_alias>
-				<srv_ip>x.x.x.x</srv_ip>
-				<srv_port>2134</srv_port>
-				<srv_cmd>...</srv_cmd>
-				<srv_desc>...</srv_desc>
+				<ip>x.x.x.x</ip>
+				<port>2134</port>
+				<command secure = "no">...</command>
+				<description>...</description>
 				<interface_name>iiii</interface_name>
 				<interface_name>kkkk</interface_name>
 			</server>
 			<server>
-				<srv_alias>aaa</srv_alias>
-				<srv_ip>x.x.x.x</srv_ip>
-				<srv_port>4231</srv_port>
-				<srv_cmd>...</srv_cmd>
-				<srv_desc>...</srv_desc>
+				<ip>x.x.x.x</ip>
+				<port>4321</port>
+				<command secure = "yes">...</command>
+				<description>...</description>
 				<interface_name>jjjj</interface_name>
 				<interface_name></interface_name>
 			</server>

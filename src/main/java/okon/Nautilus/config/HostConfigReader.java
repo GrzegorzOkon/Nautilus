@@ -39,14 +39,14 @@ public class HostConfigReader {
                                         Node server = servers.item(k);
                                         if (server.getNodeType() == Node.ELEMENT_NODE) {
                                             Element element = (Element) server;
-                                            String serverIp = element.getElementsByTagName("srv_ip").item(0).getTextContent();
-                                            Integer serverPort = Integer.valueOf(element.getElementsByTagName("srv_port").item(0).getTextContent());
-                                            String serverCommand = element.getElementsByTagName("srv_cmd").item(0).getTextContent();
-                                            String serverDescription = element.getElementsByTagName("srv_desc").item(0).getTextContent();
+                                            String serverIp = element.getElementsByTagName("ip").item(0).getTextContent();
+                                            Integer serverPort = Integer.valueOf(element.getElementsByTagName("port").item(0).getTextContent());
+                                            String serverCommand = element.getElementsByTagName("command").item(0).getTextContent();
+                                            String serverDescription = element.getElementsByTagName("description").item(0).getTextContent();
                                             List<String> interfaceNames = new ArrayList<>();
                                             interfaceNames.add(element.getElementsByTagName("interface_name").item(0).getTextContent());
                                             interfaceNames.add(element.getElementsByTagName("interface_name").item(1).getTextContent());
-                                            actions.add(new Action(serverIp, serverPort, serverCommand, serverDescription, interfaceNames));
+                                            actions.add(new Action(serverIp, serverPort, serverCommand, true, serverDescription, interfaceNames));
                                         }
                                     }
                                 }

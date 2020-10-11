@@ -1,13 +1,13 @@
 package okon.Nautilus;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import okon.Nautilus.config.AuthUserReadParams;
 import okon.Nautilus.config.HostConfigReader;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class NautilusApp extends Application {
-    private final static Map<String, List<String>> authUsers;
-    private final static Map<String, Map<String, ObservableList<Action>>> actions;
+    public final static Map<String, List<String>> authUsers;
+    public final static Map<String, Map<String, ObservableList<Action>>> actions;
 
     static {
         Element serverAuthRoot = parseConfiguration("./config/server-auth.xml");
@@ -88,30 +88,20 @@ public class NautilusApp extends Application {
                                 @Override
                                 public void handle(MouseEvent event) {
                                     if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                                        Action clickedRow = row.getItem();
-                                        SshConnection ssh;
-                                        if (clickedRow.getInterfaceNames().get(1).equals("")) {
-                                            ssh = new SshConnection(clickedRow.getIp(), clickedRow.getPort(),
-                                                    authUsers.get(clickedRow.getInterfaceNames().get(0)).get(2).equals("") ? authUsers.get(clickedRow.getInterfaceNames().get(0)).get(0) : authUsers.get(clickedRow.getInterfaceNames().get(0)).get(2) + "\\" + authUsers.get(clickedRow.getInterfaceNames().get(0)).get(0),
-                                                    authUsers.get(clickedRow.getInterfaceNames().get(0)).get(1),
+                                        SshConnection ssh = null;
+                                        if (row.getItem().getInterfaceNames().get(1).equals("")) {
+                                            ssh = new SshConnection(row.getItem().getIp(), row.getItem().getPort(),
+                                                    authUsers.get(row.getItem().getInterfaceNames().get(0)).get(2).equals("") ? authUsers.get(row.getItem().getInterfaceNames().get(0)).get(0) : authUsers.get(row.getItem().getInterfaceNames().get(0)).get(2) + "\\" + authUsers.get(row.getItem().getInterfaceNames().get(0)).get(0),
+                                                    authUsers.get(row.getItem().getInterfaceNames().get(0)).get(1),
                                                     "", "");
                                         } else {
-                                            ssh = new SshConnection(clickedRow.getIp(), clickedRow.getPort(),
-                                                    authUsers.get(clickedRow.getInterfaceNames().get(0)).get(2).equals("") ? authUsers.get(clickedRow.getInterfaceNames().get(0)).get(0) : authUsers.get(clickedRow.getInterfaceNames().get(0)).get(2) + "\\" + authUsers.get(clickedRow.getInterfaceNames().get(0)).get(0),
-                                                    authUsers.get(clickedRow.getInterfaceNames().get(0)).get(1),
-                                                    authUsers.get(clickedRow.getInterfaceNames().get(1)).get(2).equals("") ? authUsers.get(clickedRow.getInterfaceNames().get(1)).get(0) : authUsers.get(clickedRow.getInterfaceNames().get(1)).get(2) + "\\" + authUsers.get(clickedRow.getInterfaceNames().get(1)).get(0),
-                                                    authUsers.get(clickedRow.getInterfaceNames().get(1)).get(1));
+                                            ssh = new SshConnection(row.getItem().getIp(), row.getItem().getPort(),
+                                                    authUsers.get(row.getItem().getInterfaceNames().get(0)).get(2).equals("") ? authUsers.get(row.getItem().getInterfaceNames().get(0)).get(0) : authUsers.get(row.getItem().getInterfaceNames().get(0)).get(2) + "\\" + authUsers.get(row.getItem().getInterfaceNames().get(0)).get(0),
+                                                    authUsers.get(row.getItem().getInterfaceNames().get(0)).get(1),
+                                                    authUsers.get(row.getItem().getInterfaceNames().get(1)).get(2).equals("") ? authUsers.get(row.getItem().getInterfaceNames().get(1)).get(0) : authUsers.get(row.getItem().getInterfaceNames().get(1)).get(2) + "\\" + authUsers.get(row.getItem().getInterfaceNames().get(1)).get(0),
+                                                    authUsers.get(row.getItem().getInterfaceNames().get(1)).get(1));
                                         }
-                                        try {
-                                            ssh.open();
-                                            String result = ssh.runCommand(clickedRow.getCommand());
-                                            ssh.close();
-                                            openTerminalWindow(clickedRow.getIp() + ": " + clickedRow.getCommand(), result);
-
-                                            saveRaport(clickedRow);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
+                                        new Thread(new TerminalWindow(row.getItem(), ssh)).start();
                                     }
                                 }
                             });
@@ -124,28 +114,7 @@ public class NautilusApp extends Application {
         }
     }
 
-    private void openTerminalWindow(String title, String result) {
-        Stage terminalWindow = new Stage();
-        terminalWindow.setTitle(title);
-
-        BorderPane resultPanel = new BorderPane();
-
-        TextArea resultArea = new TextArea();
-        resultArea.setStyle("-fx-control-inner-background: black; " +
-                "-fx-highlight-fill: white; " +
-                "-fx-highlight-text-fill: black; " +
-                "-fx-text-fill: white; ");
-        resultArea.setWrapText(true);
-        resultPanel.setCenter(resultArea);
-        resultArea.appendText(result);
-
-        Scene resultScene = new Scene(resultPanel, 900, 500);
-        terminalWindow.setScene(resultScene);
-
-        terminalWindow.show();
-    }
-
-    private void saveRaport(Action action) {
+    /*private void saveRaport(Action action) {
         new SqliteConnection(new JobBuilder().build(action.getIp(), action.getCommand())).execute();
-    }
+    }*/
 }
