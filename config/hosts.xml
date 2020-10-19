@@ -5,7 +5,7 @@
 			<server>
 				<ip>x.x.x.x</ip>
 				<port>1234</port>
-				<command secure = "yes">...</command>
+				<command secure = "true">...</command>
 				<description>...</description>
 				<interface_name>iiii</interface_name>
 				<interface_name></interface_name>
@@ -15,7 +15,7 @@
 			<server>
 				<ip>x.x.x.x</ip>
 				<port>2134</port>
-				<command secure = "no">...</command>
+				<command secure = "false">...</command>
 				<description>...</description>
 				<interface_name>iiii</interface_name>
 				<interface_name>kkkk</interface_name>
@@ -23,7 +23,7 @@
 			<server>
 				<ip>x.x.x.x</ip>
 				<port>4321</port>
-				<command secure = "yes">...</command>
+				<command secure = "true">...</command>
 				<description>...</description>
 				<interface_name>jjjj</interface_name>
 				<interface_name></interface_name>

@@ -34,7 +34,7 @@ public class NautilusApp extends Application {
     @Override
     public void start(Stage stage) {
         stage.setScene(prepareScene());
-        stage.setTitle("Nautilus v.1.0.2 (rev. 20201007)");
+        stage.setTitle("Nautilus v.1.0.2 (rev. 20201019)");
         stage.show();
     }
 
@@ -75,13 +75,18 @@ public class NautilusApp extends Application {
                         command.setSortable(false);
                         command.setCellValueFactory(new PropertyValueFactory<>("command"));
 
+                        TableColumn secureMode = new TableColumn("Security");
+                        secureMode.setMinWidth(80);
+                        command.setSortable(false);
+                        secureMode.setCellValueFactory(new PropertyValueFactory<>("secureMode"));
+
                         TableColumn description = new TableColumn("Description");
                         description.setMinWidth(300);
                         description.setSortable(false);
                         description.setCellValueFactory(new PropertyValueFactory<>("description"));
 
                         table.setItems(actions.get(firstLayerTabName).get(secondLayerTabName));
-                        table.getColumns().addAll(ip, command, description);
+                        table.getColumns().addAll(ip, command, secureMode, description);
                         table.setRowFactory(tv -> {
                             TableRow<Action> row = new TableRow<>();
                             row.setOnMouseClicked(new EventHandler<MouseEvent>() {

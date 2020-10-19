@@ -42,11 +42,12 @@ public class HostConfigReader {
                                             String serverIp = element.getElementsByTagName("ip").item(0).getTextContent();
                                             Integer serverPort = Integer.valueOf(element.getElementsByTagName("port").item(0).getTextContent());
                                             String serverCommand = element.getElementsByTagName("command").item(0).getTextContent();
+                                            Boolean secureMode = Boolean.valueOf(element.getElementsByTagName("command").item(0).getAttributes().item(0).getNodeValue());
                                             String serverDescription = element.getElementsByTagName("description").item(0).getTextContent();
                                             List<String> interfaceNames = new ArrayList<>();
                                             interfaceNames.add(element.getElementsByTagName("interface_name").item(0).getTextContent());
                                             interfaceNames.add(element.getElementsByTagName("interface_name").item(1).getTextContent());
-                                            actions.add(new Action(serverIp, serverPort, serverCommand, true, serverDescription, interfaceNames));
+                                            actions.add(new Action(serverIp, serverPort, serverCommand, secureMode, serverDescription, interfaceNames));
                                         }
                                     }
                                 }
