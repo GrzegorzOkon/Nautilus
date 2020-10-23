@@ -123,8 +123,4 @@ public class NautilusApp extends Application {
             }
         }
     }
-
-    /*private void saveRaport(Action action) {
-        new SqliteConnection(new JobBuilder().build(action.getIp(), action.getCommand())).execute();
-    }*/
 }
