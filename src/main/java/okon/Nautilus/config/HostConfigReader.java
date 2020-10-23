@@ -39,6 +39,7 @@ public class HostConfigReader {
                                         Node server = servers.item(k);
                                         if (server.getNodeType() == Node.ELEMENT_NODE) {
                                             Element element = (Element) server;
+                                            String hostname = element.getElementsByTagName("hostname").item(0).getTextContent();
                                             String serverIp = element.getElementsByTagName("ip").item(0).getTextContent();
                                             Integer serverPort = Integer.valueOf(element.getElementsByTagName("port").item(0).getTextContent());
                                             String serverCommand = element.getElementsByTagName("command").item(0).getTextContent();
@@ -47,7 +48,7 @@ public class HostConfigReader {
                                             List<String> interfaceNames = new ArrayList<>();
                                             interfaceNames.add(element.getElementsByTagName("interface_name").item(0).getTextContent());
                                             interfaceNames.add(element.getElementsByTagName("interface_name").item(1).getTextContent());
-                                            actions.add(new Action(serverIp, serverPort, serverCommand, secureMode, serverDescription, interfaceNames));
+                                            actions.add(new Action(hostname, serverIp, serverPort, serverCommand, secureMode, serverDescription, interfaceNames));
                                         }
                                     }
                                 }

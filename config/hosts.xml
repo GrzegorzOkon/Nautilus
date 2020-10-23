@@ -3,6 +3,7 @@
 	<AES>
 		<JBossNodes>
 			<server>
+				<hostname>aaaa</hostname>
 				<ip>x.x.x.x</ip>
 				<port>1234</port>
 				<command secure = "true">...</command>
@@ -12,7 +13,8 @@
 			</server>
 		</JBossNodes>
 		<JBossCluster>
-			<server>
+			<server>\
+				<hostname>bbbb</hostname>
 				<ip>x.x.x.x</ip>
 				<port>2134</port>
 				<command secure = "false">...</command>
@@ -21,6 +23,7 @@
 				<interface_name>kkkk</interface_name>
 			</server>
 			<server>
+				<hostname>cccc</hostname>
 				<ip>x.x.x.x</ip>
 				<port>4321</port>
 				<command secure = "true">...</command>
