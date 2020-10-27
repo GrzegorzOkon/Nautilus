@@ -34,7 +34,7 @@ public class NautilusApp extends Application {
     @Override
     public void start(Stage stage) {
         stage.setScene(prepareScene());
-        stage.setTitle("Nautilus v.1.0.2 (rev. 20201023)");
+        stage.setTitle("Nautilus v.1.0.2 (rev. 20201027)");
         stage.show();
     }
 

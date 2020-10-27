@@ -3,7 +3,7 @@ package okon.Nautilus.config;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import okon.Nautilus.Action;
-import okon.Nautilus.exception.AppException;
+import okon.Nautilus.exception.ConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -50,7 +50,7 @@ public class HostConfigReader {
             Document document = docBuilder.parse(file);
             return document.getDocumentElement();
         } catch (Exception e) {
-            throw new AppException(e);
+            throw new ConfigurationException(e.getMessage());
         }
     }
 
