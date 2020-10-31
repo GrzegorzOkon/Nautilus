@@ -1,7 +1,6 @@
 package okon.Nautilus;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -11,6 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import okon.Nautilus.config.AuthUserReadParams;
 import okon.Nautilus.config.HostConfigReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.w3c.dom.Element;
 
 import java.io.File;
@@ -18,10 +20,16 @@ import java.util.List;
 import java.util.Map;
 
 public class NautilusApp extends Application {
+    private static final Logger logger = LogManager.getLogger(NautilusApp.class);
+    static final String version;
     public final static Map<String, List<String>> authUsers;
     public final static Map<String, Map<String, ObservableList<Action>>> actions;
 
     static {
+        LoggerContext context = (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
+        File file = new File("config/log4j2.xml");
+        context.setConfigLocation(file.toURI());
+        version = ProgramVersion.getTitleDescription();
         Element serverAuthRoot = parseConfiguration("./config/server-auth.xml");
         authUsers =  AuthUserReadParams.readAuthUsers(serverAuthRoot);
         actions = HostConfigReader.readParams(new File("./config/hosts.xml"));
@@ -34,7 +42,7 @@ public class NautilusApp extends Application {
     @Override
     public void start(Stage stage) {
         stage.setScene(prepareScene());
-        stage.setTitle("Nautilus v.1.0.2 (rev. 20201027)");
+        stage.setTitle(version);
         stage.show();
     }
 
@@ -42,7 +50,7 @@ public class NautilusApp extends Application {
         TabPane tabPanel = new TabPane();
         tabPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         prepareView(tabPanel);
-        return new Scene(tabPanel, 1000, 600);
+        return new Scene(tabPanel, 1150, 700);
     }
 
     private static Element parseConfiguration(String pathname) {
@@ -66,27 +74,27 @@ public class NautilusApp extends Application {
                         TableView table = new TableView();
 
                         TableColumn ip = new TableColumn("IP");
-                        ip.setMinWidth(100);
+                        ip.setMinWidth(80);
                         ip.setSortable(false);
                         ip.setCellValueFactory(new PropertyValueFactory<>("ip"));
 
                         TableColumn hostname = new TableColumn("Hostname");
-                        hostname.setMinWidth(200);
+                        hostname.setMinWidth(80);
                         hostname.setSortable(false);
                         hostname.setCellValueFactory(new PropertyValueFactory<>("hostname"));
 
                         TableColumn command = new TableColumn("Command");
-                        command.setMinWidth(300);
+                        command.setMinWidth(500);
                         command.setSortable(false);
                         command.setCellValueFactory(new PropertyValueFactory<>("command"));
 
                         TableColumn secureMode = new TableColumn("Security");
-                        secureMode.setMinWidth(80);
+                        secureMode.setMinWidth(60);
                         command.setSortable(false);
                         secureMode.setCellValueFactory(new PropertyValueFactory<>("secureMode"));
 
                         TableColumn description = new TableColumn("Description");
-                        description.setMinWidth(300);
+                        description.setMinWidth(400);
                         description.setSortable(false);
                         description.setCellValueFactory(new PropertyValueFactory<>("description"));
 
