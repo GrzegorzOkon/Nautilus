@@ -13,7 +13,6 @@ import okon.Nautilus.config.HostConfigReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.w3c.dom.Element;
 
 import java.io.File;
 import java.util.List;
@@ -30,8 +29,7 @@ public class NautilusApp extends Application {
         File file = new File("config/log4j2.xml");
         context.setConfigLocation(file.toURI());
         version = ProgramVersion.getTitleDescription();
-        Element serverAuthRoot = parseConfiguration("./config/server-auth.xml");
-        authUsers =  AuthUserReadParams.readAuthUsers(serverAuthRoot);
+        authUsers =  AuthUserReadParams.readParams(new File("./config/server-auth.xml"));
         actions = HostConfigReader.readParams(new File("./config/hosts.xml"));
     }
 
@@ -51,11 +49,6 @@ public class NautilusApp extends Application {
         tabPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         prepareView(tabPanel);
         return new Scene(tabPanel, 1150, 700);
-    }
-
-    private static Element parseConfiguration(String pathname) {
-        ConfigurationParser parser = new ConfigurationParser();
-        return parser.parseXml(new File(pathname));
     }
 
     private void prepareView(TabPane tabPanel) {

@@ -8,8 +8,8 @@ public class ProgramVersion {
     private static String programName = "Nautilus";
     private static String major = "1";
     private static String minor = "0";
-    private static String release = "3";
-    private static String revision = "20201031";
+    private static String release = "4";
+    private static String revision = "20201108";
 
     public static String getTitleDescription() {
         logger.info("*** " + programName + " version " + major + "." + minor + "." + release + " ***");

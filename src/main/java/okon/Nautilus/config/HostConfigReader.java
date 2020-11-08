@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import okon.Nautilus.Action;
 import okon.Nautilus.exception.ConfigurationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,40 +20,44 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class HostConfigReader {
+    private static final Logger logger = LogManager.getLogger(HostConfigReader.class);
+
     public static Map<String, Map<String, ObservableList<Action>>> readParams(File file) {
-        Element config = parseXml(file);
         Map<String, Map<String, ObservableList<Action>>> result = new TreeMap<>();
-        NodeList firstLevelTabs = config.getChildNodes();
-        if (areTabsPresent(firstLevelTabs)) {
-            for (int i = 0; i < firstLevelTabs.getLength(); i++) {
-                Node firstLevelTab = firstLevelTabs.item(i);
-                if (isElementNode(firstLevelTab)) {
-                    Map<String, ObservableList<Action>> secondLevelTabsActions = new TreeMap<>();
-                    NodeList secondLevelTabs = firstLevelTab.getChildNodes();
-                    if (areTabsPresent(secondLevelTabs)) {
-                        for (int j = 0; j < secondLevelTabs.getLength(); j++) {
-                            Node secondLevelTab = secondLevelTabs.item(j);
-                            if (isElementNode(secondLevelTab)) {
-                                secondLevelTabsActions.put(secondLevelTab.getNodeName(), createActionsFromTab(secondLevelTab));
+        try {
+            Element config = parseXml(file);
+            NodeList firstLevelTabs = config.getChildNodes();
+            if (areTabsPresent(firstLevelTabs)) {
+                for (int i = 0; i < firstLevelTabs.getLength(); i++) {
+                    Node firstLevelTab = firstLevelTabs.item(i);
+                    if (isElementNode(firstLevelTab)) {
+                        Map<String, ObservableList<Action>> secondLevelTabsActions = new TreeMap<>();
+                        NodeList secondLevelTabs = firstLevelTab.getChildNodes();
+                        if (areTabsPresent(secondLevelTabs)) {
+                            for (int j = 0; j < secondLevelTabs.getLength(); j++) {
+                                Node secondLevelTab = secondLevelTabs.item(j);
+                                if (isElementNode(secondLevelTab)) {
+                                    secondLevelTabsActions.put(secondLevelTab.getNodeName(), createActionsFromTab(secondLevelTab));
+                                }
                             }
                         }
+                        result.put(firstLevelTab.getNodeName(), secondLevelTabsActions);
                     }
-                    result.put(firstLevelTab.getNodeName(), secondLevelTabsActions);
                 }
             }
+        } catch (Exception e) {
+            logger.error("ParseXml(" + file.getName() + ") : " + e.getMessage());
+            throw new ConfigurationException(e.getMessage());
         }
+        logger.debug("ReadParams(" + file.getName() + ") : OK");
         return result;
     }
 
-    private static Element parseXml(File file) {
-        try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document document = docBuilder.parse(file);
-            return document.getDocumentElement();
-        } catch (Exception e) {
-            throw new ConfigurationException(e.getMessage());
-        }
+    private static Element parseXml(File file) throws Exception {
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document document = docBuilder.parse(file);
+        return document.getDocumentElement();
     }
 
     private static boolean areTabsPresent(NodeList tabs) {
@@ -68,7 +74,7 @@ public class HostConfigReader {
         return false;
     }
 
-    private static ObservableList<Action> createActionsFromTab(Node tab) {
+    private static ObservableList<Action> createActionsFromTab(Node tab) throws Exception {
         ObservableList<Action> result = FXCollections.observableArrayList();
         NodeList servers = tab.getChildNodes();
         if (servers != null && servers.getLength() > 0) {
@@ -82,7 +88,7 @@ public class HostConfigReader {
         return result;
     }
 
-    private static Action createAction(Node node) {
+    private static Action createAction(Node node) throws Exception {
         Element element = (Element) node;
         String hostname = element.getElementsByTagName("hostname").item(0).getTextContent();
         String serverIp = element.getElementsByTagName("ip").item(0).getTextContent();
