@@ -10,9 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import okon.Nautilus.config.AuthUserReadParams;
 import okon.Nautilus.config.HostConfigReader;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.util.List;
@@ -25,9 +25,7 @@ public class NautilusApp extends Application {
     public final static Map<String, Map<String, ObservableList<Action>>> actions;
 
     static {
-        LoggerContext context = (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
-        File file = new File("config/log4j2.xml");
-        context.setConfigLocation(file.toURI());
+        PropertyConfigurator.configure("./config/log4j.properties");
         version = ProgramVersion.getTitleDescription();
         authUsers =  AuthUserReadParams.readParams(new File("./config/server-auth.xml"));
         actions = HostConfigReader.readParams(new File("./config/hosts.xml"));

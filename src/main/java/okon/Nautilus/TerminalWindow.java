@@ -6,8 +6,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -57,7 +59,7 @@ public class TerminalWindow implements Runnable {
                                 ssh.open();
                                 String commandResponse = ssh.runCommand(action.getCommand());
                                 ssh.close();
-                                logger.info("A command '" + action.getCommand() + "' on host '" + action.getHostname() + "' was run succesfully");
+                                logger.info("A command '" + action.getCommand() + "' on host '" + action.getHostname() + "' was run successfully");
                                 printResponse(commandResponse);
                             }
                             logger.debug("An user rejected a system question about a command '" + action.getCommand() + "' on a host '" + action.getHostname());
@@ -72,7 +74,7 @@ public class TerminalWindow implements Runnable {
                 ssh.open();
                 String commandResponse = ssh.runCommand(action.getCommand());
                 ssh.close();
-                logger.info("A command '" + action.getCommand() + "' on a host '" + action.getHostname() + "' was run succesfully");
+                logger.info("A command '" + action.getCommand() + "' on a host '" + action.getHostname() + "' was run successfully");
                 printResponse(commandResponse);
             }
         } catch (JSchException e) {
